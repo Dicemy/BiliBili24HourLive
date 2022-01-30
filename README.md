@@ -1,5 +1,5 @@
 # BiliBili24HourLive
-使用树莓派4B和FFmpeg进行24小时B站视频推流
+使用树莓派4B和FFmpeg进行24小时B站视频轮播推流
 
 # 使用方法
 1. 将本仓库clone到树莓派上
