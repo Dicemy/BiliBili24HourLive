@@ -2,8 +2,9 @@ import os
 import os.path
 import io
 
-dir = input("请输入视频所在地址:\n")
+dir = input("请输入视频所在文件夹地址（或者文件地址）:\n")
 rtmp = input("请输入B站直播串流密钥:\n")
+
 nameList = []
 
 def listDir(dirTemp):
@@ -17,7 +18,14 @@ def listDir(dirTemp):
     resultList = os.listdir(dirTemp)
     for fileOrDir in resultList:
         listDir(dirTemp + "/" +fileOrDir)
+    #     用递归将文件目录中的文件全部加入到nameList中
     return nameList
+
+def getfilename(file):
+    tmpint = file.rfind('/')
+    filename = file[tmpint + 1:]
+    return filename
+
 
 def main():
     while True:
@@ -28,7 +36,6 @@ def main():
             fw = io.open("mylog", 'a+', encoding='utf8')
             fw.write(file)
             fw.write('\n')
-            tmpint = file.rfind('/')
-            filename = file[tmpint:]
-            os.system('ffmpeg -re -i "' + file + '"  -vcodec copy -acodec aac -b:a 192k -f flv "rtmp://live-push.bilivideo.com/live-bvc/' + rtmp + '"')
+            filename = getfilename(file)
+            os.system('ffmpeg -re -i "' + file + '" -vcodec libx264 -acodec copy -b:a 192k -r 13 -vf "drawtext=fontsize=24:fontfile=FreeSerif.ttf:text=\'' + filename + '\':x=10:y=main_h-30:fontcolor=LightGrey:alpha=0.6" -f flv "rtmp://live-push.bilivideo.com/live-bvc/' + rtmp + '"')
 main()
