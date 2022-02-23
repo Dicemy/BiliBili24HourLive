@@ -5,6 +5,7 @@ import io
 dir = input("请输入视频所在文件夹地址（或者文件地址）:\n")
 rtmp = input("请输入B站直播串流密钥:\n")
 fps = input("请输入要进行推流的帧率:\n")
+startfile = input("请输入开始播放的文件名（带拓展名）,输入回车从第一个视频开始:\n")
 
 nameList = []
 
@@ -30,13 +31,21 @@ def getfilename(file):
 
 def main():
     while True:
+        flag = False
+        if startfile != '':
+            flag = True
         List = listDir(dir)
         List.sort()
         for file in List:
+            filename = getfilename(file)
+            if filename != startfile and flag:
+                continue
+            else:
+                startfile = ''
+                flag = False
             print(file)
             fw = io.open("mylog", 'a+', encoding='utf8')
             fw.write(file)
             fw.write('\n')
-            filename = getfilename(file)
             os.system('ffmpeg -re -i "' + file + '" -vcodec libx264 -acodec copy -b:a 192k -r ' + fps + ' -vf "drawtext=fontsize=24:fontfile=FreeSerif.ttf:text=\'' + filename + '\':x=10:y=main_h-30:fontcolor=LightGrey:alpha=0.6" -f flv "rtmp://live-push.bilivideo.com/live-bvc/' + rtmp + '"')
 main()
