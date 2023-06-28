@@ -8,3 +8,8 @@
 4. 根据提示输入信息
 5. 按Ctrl + A + D 退出该screen即可后台运行
 6. 建议帧率设置为30
+
+
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/Dicemy/BiliBili24HourLive.svg)](https://starchart.cc/Dicemy/BiliBili24HourLive)
